@@ -1,0 +1,13 @@
+.snake-part {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+}
+
+.snake-head {
+  background-color: gold;
+}
+
+.snake-body {
+  background-color: green;
+}
