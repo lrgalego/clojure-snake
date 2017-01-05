@@ -5,18 +5,10 @@
             [goog.events :as events]
             [cljs.core.async :refer [put! chan <! >!]]))
 
-(defn event-chan [input]
-  (let [out (chan)]
-    (go-loop []
-      (>! out (<! input))
-      (recur))
-    out))
-
 (defn event-activity [target event]
-  (let [event-broadcast (chan)
-       event-listener (event-chan event-broadcast)]
+  (let [event-broadcast (chan)]
     (events/listen target event #(put! event-broadcast %))
-    event-listener))
+    event-broadcast))
 
 (defn setup-keyboard [handle-keyboard]
   (let [body (dom/getElement "body")]
