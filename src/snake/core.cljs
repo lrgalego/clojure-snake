@@ -16,7 +16,7 @@
         className (if is-head
                       "snake-head"
                       "snake-body")]
-    [:div {:key (str x y)
+    [:div {:key (str "snake" x "X" y)
            :className (str "snake-part " className)
            :style {:left x :top y}}]))
 
@@ -25,7 +25,7 @@
         (map #(snake-body-part % false) (rest snake))))
 
 (defn fruit [{type :type x :x y :y} f]
-  [:div {:key (str x y)
+  [:div {:key (str "fruit" x "X" y)
          :className (str "fruit fruit-" type)
          :style {:left (* 30 x) :top (* 30 y)}}])
 
