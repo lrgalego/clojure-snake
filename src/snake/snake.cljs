@@ -28,11 +28,21 @@
 (defn turn-down [snake]
   (assoc snake :direction move-down))
 
-(defn move-snake [snake]
+(defn eating-fruit [snake fruits]
+  (let [{x :x y :y} (first (:body snake))]
+    (first (filter #(and (= x (:x %))
+                         (= y (:y %)))
+                   fruits))))
+
+(defn headless-body [snake-body is-eating]
+  (if is-eating snake-body (drop-last snake-body)))
+
+(defn move-snake [snake fruits]
   (let [body (:body snake)
         move (:direction snake)
+        is-eating (eating-fruit snake fruits)
         new-body (cons (move (first body))
-                       (drop-last body))]
+                       (headless-body body is-eating))]
     (assoc snake :body new-body)))
 
 (def default-snake
