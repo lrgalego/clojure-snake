@@ -1,13 +1,13 @@
 (ns snake.core
   (:require [reagent.core :as reagent :refer [atom]]
             [snake.keyboard :refer [setup-keyboard]]
-            [snake.snake :refer [move-left
-                                 move-right
-                                 move-up
-                                 move-down
-                                 move-snake
-                                 default-snake]]))
+            [snake.snake :as s]
+            [snake.world :refer [default-world]]))
+
 (enable-console-print!)
+
+(defonce world
+  (atom default-world))
 
 (defn snake-body-part
   [body-part is-head]
@@ -20,35 +20,46 @@
            :className (str "snake-part " className)
            :style {:left x :top y}}]))
 
-(defonce snake-state
-  (atom default-snake))
+(defn snake [snake]
+  (cons (snake-body-part (first snake) true)
+        (map #(snake-body-part % false) (rest snake))))
 
-(defn snake []
-  (let [snake (:body @snake-state)]
-    (cons (snake-body-part (first snake) true)
-          (map #(snake-body-part % false) (rest snake)))))
+(defn fruit [{type :type x :x y :y} f]
+  [:div {:key (str x y)
+         :className (str "fruit fruit-" type)
+         :style {:left (* 30 x) :top (* 30 y)}}])
 
-(defn refresh-snake []
-  (reset! snake-state (move-snake @snake-state)))
-
-(defn turn-right []
-  (swap! snake-state assoc :direction move-right)
-  (refresh-snake))
-
-(defn turn-left []
-  (swap! snake-state assoc :direction move-left)
-  (refresh-snake))
-
-(defn turn-up []
-  (swap! snake-state assoc :direction move-up)
-  (refresh-snake))
-
-(defn turn-down []
-  (swap! snake-state assoc :direction move-down)
-  (refresh-snake))
+(defn fruits [fruits]
+  (map fruit fruits))
 
 (defn game []
-  [:div (snake)])
+  [:div (fruits (-> @world :fruits))
+        (snake (-> @world :snake :body))])
+
+
+(defn refresh-snake []
+  (let [snake (:snake @world)]
+    (swap! world assoc :snake (s/move-snake snake))))
+
+(defn turn-right []
+  (let [snake (:snake @world)]
+    (swap! world assoc :snake (s/turn-right snake))
+    (refresh-snake)))
+
+(defn turn-left []
+  (let [snake (:snake @world)]
+    (swap! world assoc :snake (s/turn-left snake))
+    (refresh-snake)))
+
+(defn turn-up []
+  (let [snake (:snake @world)]
+    (swap! world assoc :snake (s/turn-up snake))
+    (refresh-snake)))
+
+(defn turn-down []
+  (let [snake (:snake @world)]
+    (swap! world assoc :snake (s/turn-down snake))
+    (refresh-snake)))
 
 (reagent/render-component
   [game]

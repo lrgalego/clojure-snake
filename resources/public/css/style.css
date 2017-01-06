@@ -11,3 +11,19 @@
 .snake-body {
   background-color: green;
 }
+
+.fruit {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.fruit-apple {
+  background-color: red;
+}
+
+.fruit-cherry {
+  background-color: purple;
+}

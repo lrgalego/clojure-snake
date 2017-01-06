@@ -4,17 +4,29 @@
   [{x :x y :y} head-position]
   {:x (dec x) :y y})
 
+(defn turn-left [snake]
+  (assoc snake :direction move-left))
+
 (defn move-right
   [{x :x y :y} head-position]
   {:x (inc x) :y y})
+
+(defn turn-right [snake]
+  (assoc snake :direction move-right))
 
 (defn move-up
   [{x :x y :y} head-position]
   {:x x :y (dec y)})
 
+(defn turn-up [snake]
+  (assoc snake :direction move-up))
+
 (defn move-down
   [{x :x y :y} head-position]
   {:x x :y (inc y)})
+
+(defn turn-down [snake]
+  (assoc snake :direction move-down))
 
 (defn move-snake [snake]
   (let [body (:body snake)
