@@ -13,7 +13,7 @@
 (defn remove-eaten-fruit [world fruit]
   (if
     fruit
-    (assoc world :fruits (filter #(not(= fruit %)) (:fruits world)))
+    (assoc world :fruits (remove #(= fruit %) (:fruits world)))
     world))
 
 (defn move-snake [world]
