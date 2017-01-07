@@ -35,7 +35,7 @@
     (refresh-world)))
 
 (reagent/render-component
-  [#(game @world)]
+  [#(game world)]
   (. js/document (getElementById "app")))
 
 (defn handle-keyboard [event]
