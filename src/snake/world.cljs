@@ -43,3 +43,10 @@
         new-snake (s/move-snake snake fruits walls)
         new-world (remove-eaten-fruit world eaten-fruit)]
     (assoc new-world :snake new-snake)))
+
+(defn refresh-world! [world]
+  (let [snake (:snake @world)]
+    (swap! world move-snake)))
+
+(defn reset-world! [world]
+  (reset! world default-world))

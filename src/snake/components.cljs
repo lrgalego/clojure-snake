@@ -1,5 +1,5 @@
 (ns snake.components
-  (:require [snake.world :as w]))
+  (:require [snake.world :refer [reset-world!]]))
 
 (defn snake-body-part
   [body-part part-type]
@@ -32,15 +32,15 @@
 (defn walls [walls]
   (map wall walls))
 
-(defn restart [world]
+(defn restart! [world]
   (when (:dead (:snake @world))
         [:div {:className "death-cover"}
               [:a {:href "#"
-                   :onClick #(reset! world w/default-world)}
+                   :onClick #(reset-world! world)}
                "restart"]]))
 
-(defn game [world]
+(defn game! [world]
   [:div [:div (fruits (:fruits @world))]
         [:div (walls (:walls @world))]
         [:div (snake (:snake @world))]
-        (restart world)])
+        (restart! world)])
