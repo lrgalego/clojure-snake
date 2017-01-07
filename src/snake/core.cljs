@@ -39,12 +39,13 @@
   (. js/document (getElementById "app")))
 
 (defn handle-keyboard [event]
-  (case (.-keyCode event)
-    (37 65) (turn-left)
-    (39 68) (turn-right)
-    (38 87) (turn-up)
-    (40 83) (turn-down)
-    nil))
+  (when (not (-> @world :snake :dead))
+    (case (.-keyCode event)
+      (37 65) (turn-left)
+      (39 68) (turn-right)
+      (38 87) (turn-up)
+      (40 83) (turn-down)
+      nil)))
 
 (setup-keyboard handle-keyboard)
 

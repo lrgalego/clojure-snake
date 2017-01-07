@@ -32,11 +32,9 @@
   (map wall walls))
 
 (defn restart [snake]
-  (println "restart")
   (when (:dead snake)
-    (do (println "dead")
         [:div {:className "death-cover"}
-              [:a {:href "#"} "restart"]])))
+              [:a {:href "#"} "restart"]]))
 
 (defn game [world]
   [:div [:div (fruits (:fruits world))]
