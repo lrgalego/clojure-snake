@@ -1,27 +1,10 @@
 (ns snake.world
-  (:require [snake.snake :as s]))
-
-(defn build-walls [specs]
-  (set (mapcat
-         (fn [spec]
-           (cond
-             (:xrange spec)
-             (map #(hash-map :x % :y (:y spec))
-                  (apply range (:xrange spec)))
-             (:yrange spec)
-             (map #(hash-map :x (:x spec) :y %)
-                  (apply range (:yrange spec)))
-             :default [spec]))
-         specs)))
+  (:require [snake.snake :as s]
+            [snake.walls :refer [default-wall]]))
 
 (def default-world
   {:snake s/default-snake
-   :walls (build-walls [{:xrange '(0 16) :y 0}
-                        {:xrange '(0 16) :y 15}
-                        {:xrange '(3 13) :y 5}
-                        {:xrange '(3 13) :y 10}
-                        {:yrange '(0 16) :x 0}
-                        {:yrange '(0 16) :x 15}])
+   :walls default-wall
    :fruits [{:type "apple" :x 3 :y 2}
             {:type "cherry" :x 7 :y 8}
             {:type "orange" :x 4 :y 4}
