@@ -1,15 +1,18 @@
 .snake-part {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
+  margin: 2px;
 }
 
 .snake-head {
   background-color: gold;
+  border-radius: 7px;
 }
 
 .snake-body {
   background-color: green;
+  border-radius: 3px;
 }
 
 .fruit {
