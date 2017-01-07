@@ -1,3 +1,9 @@
+#app {
+  margin: auto;
+  position: relative;
+  width: 480px;
+}
+
 .snake-part {
   position: absolute;
   width: 26px;
@@ -7,7 +13,14 @@
 
 .snake-head {
   background-color: gold;
+  z-index: 1;
   border-radius: 7px;
+}
+
+.snake-dead {
+  background-color: red;
+  z-index: 1;
+  border-radius: 30px;
 }
 
 .snake-body {
@@ -33,4 +46,34 @@
 
 .fruit-orange {
   background-color: orange;
+}
+
+.wall {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #444;
+}
+
+.death-cover {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  z-index: 2;
+  background-color: rgba(255, 150, 150, 0.5);
+}
+.death-cover a {
+  margin: auto;
+  width: 150px;
+  height: 40px;
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 220px;
+  background-color: black;
+  color: yellow;
+  border-radius: 5px;
+  padding-top: 15px;
+  text-transform: uppercase;
 }
