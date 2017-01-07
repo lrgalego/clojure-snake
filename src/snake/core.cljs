@@ -2,7 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [snake.keyboard :refer [setup-keyboard!]]
             [snake.components :refer [game!]]
-            [snake.world :refer [default-world]]))
+            [snake.world :refer [refresh-game! default-world]]))
 
 (enable-console-print!)
 
@@ -14,6 +14,7 @@
   (. js/document (getElementById "app")))
 
 (setup-keyboard! world)
+(refresh-game! world)
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
