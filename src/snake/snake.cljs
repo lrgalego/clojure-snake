@@ -34,8 +34,10 @@
                          (= y (:y %)))
                    fruits))))
 
-(defn headless-body [snake-body is-eating]
-  (if is-eating snake-body (drop-last snake-body)))
+(defn headless-body [snake fruits]
+  (let [is-eating (eating-fruit snake fruits)
+        snake-body (:body snake)]
+    (if is-eating snake-body (drop-last snake-body))))
 
 (defn crash [body walls]
   (let [{x :x y :y} (first body)]
@@ -46,13 +48,11 @@
                      walls)))))
 
 (defn move-snake [snake fruits walls]
-  (let [body (:body snake)
-        move (:direction snake)
-        is-eating (eating-fruit snake fruits)
-        new-body (cons (move (first body))
-                       (headless-body body is-eating))
-        is-dead (crash new-body walls)
-        ]
+  (let [move (:direction snake)
+        head (first (:body snake))
+        new-body (cons (move head)
+                       (headless-body snake fruits))
+        is-dead (crash new-body walls)]
     (assoc snake :body new-body :dead is-dead)))
 
 (def default-snake
