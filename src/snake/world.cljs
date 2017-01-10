@@ -6,7 +6,7 @@
             [snake.walls :refer [default-wall]]))
 
 (def default-world
-  {:refresh-game true
+  {:refresh-at 0
    :snake s/default-snake
    :walls default-wall
    :fruits sample-fruits})
@@ -24,19 +24,15 @@
   (let [snake (:snake @world)]
     (swap! world move-snake)))
 
-(declare refresh-game!)
-
-(defn handle-refresh! [world]
-  (when (not (-> @world :snake :dead))
-    (if (:refresh-game @world)
+(defn refresh! [world]
+  (let [w @world
+        now (.now js/Date)
+        refresh? (> now (:refresh-at w))
+        alive? (not (-> w :snake :dead))]
+    (when (and alive? refresh?)
       (do
         (refresh-world! world)
-        (refresh-game! world))
-      (swap! world assoc :refresh-game true))))
-
-(defn refresh-game! [world]
-  (js/setTimeout #(handle-refresh! world) 500))
+        (swap! world assoc :refresh-at (+ 500 now))))))
 
 (defn reset-world! [world]
-  (reset! world default-world)
-  (refresh-game! world))
+  (reset! world default-world))

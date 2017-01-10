@@ -1,17 +1,13 @@
 (ns snake.keyboard
-  (:require [snake.world :refer [refresh-world!
-                                 reset-world!
-                                 refresh-game!]]
+  (:require [snake.world :refer [reset-world!]]
             [snake.snake :as s]
             [goog.dom :as dom]
             [goog.events :as events]))
 
 (defn turn! [world turn]
   (let [snake (:snake @world)
-        refresh-game? (:refresh-game @world)]
-    (swap! world assoc :snake (turn snake) :refresh-game false)
-    (refresh-world! world)
-    (when refresh-game? (refresh-game! world))))
+        now (.now js/Date)]
+    (swap! world assoc :snake (turn snake) :refresh-at now)))
 
 (defn handle-keyboard [world event]
   (let [code (.-keyCode event)]
