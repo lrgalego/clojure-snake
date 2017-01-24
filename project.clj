@@ -6,20 +6,24 @@
 
   :min-lein-version "2.7.1"
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[lein-doo "0.1.7"]
+                 [devcards "0.2.2"]
+                 [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.229"]
                  [org.clojure/core.async "0.2.391"
                   :exclusions [org.clojure/tools.reader]]
                  [reagent "0.6.0"]]
 
-  :plugins [[lein-figwheel "0.5.8"]
+  :plugins [[lein-doo "0.1.7"]
+            [lein-figwheel "0.5.8"]
             [lein-cljsbuild "1.1.4" :exclusions [[org.clojure/clojure]]]]
 
   :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :cljsbuild {:builds
+  :cljsbuild {:test-commands {"test" ["lein" "doo" "phantom" "test" "once"]}
+              :builds
               [{:id "dev"
                 :source-paths ["src"]
 
@@ -49,7 +53,22 @@
                 :compiler {:output-to "resources/public/js/compiled/snake.js"
                            :main snake.core
                            :optimizations :advanced
-                           :pretty-print false}}]}
+                           :pretty-print false}}
+               {:id "test"
+                :source-paths ["src" "test"]
+                :compiler {:main runners.doo
+                          :optimizations :none
+                          :output-dir "resources/public/js/doo/out"
+                          :output-to "resources/public/js/tests/all-tests.js"}}
+               {:id "devcards-test"
+                :source-paths ["src" "test"]
+                :figwheel {:devcards true}
+                :compiler {:main runners.browser
+                           :optimizations :none
+                           :asset-path "js/tests/out"
+                           :output-dir "resources/public/js/tests/out"
+                           :output-to "resources/public/js/tests/all-tests.js"
+                           :source-map-timestamp true}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
